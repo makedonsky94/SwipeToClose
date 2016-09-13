@@ -27,6 +27,7 @@ public class SwipeToClose {
     private boolean mShadow = true;
     private int mShadowColor = android.R.color.black;
     private int mDirection = SwipeLayout.DIRECTION_RIGHT;
+    private float mSensitivity = SwipeLayout.SENSITIVITY;
 
     private SwipeLayout.OnCloseListener mOnCloseListener = new SwipeLayout.OnCloseListener() {
         @Override
@@ -88,6 +89,14 @@ public class SwipeToClose {
     }
 
     /**
+     * Sets sensitivity of swipe. Default value is 0.2f
+     */
+    public SwipeToClose withSensitivity(float sensitivity) {
+        mSensitivity = sensitivity;
+        return this;
+    }
+
+    /**
      * Sets {@link SwipeLayout} as root view
      */
     public void bind() {
@@ -104,7 +113,7 @@ public class SwipeToClose {
                         ViewGroup.LayoutParams.MATCH_PARENT);
 
         SwipeLayout swipeLayout =
-                new SwipeLayout(activity, mShadow, mShadowColor, mDirection);
+                new SwipeLayout(activity, mShadow, mShadowColor, mDirection, mSensitivity);
         swipeLayout.setLayoutParams(params);
         swipeLayout.setOnCloseListener(mOnCloseListener);
 

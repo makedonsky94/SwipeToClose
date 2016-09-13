@@ -33,7 +33,7 @@ public class SwipeLayout extends RelativeLayout {
     private static final float START_ALPHA = 0.8f;
     private static final float END_ALPHA = 0.0f;
 
-    private static final float SENSITIVITY = 0.2f;
+    public static final float SENSITIVITY = 0.2f;
 
     public static final int DIRECTION_RIGHT = 1;
     public static final int DIRECTION_LEFT = 2;
@@ -50,22 +50,27 @@ public class SwipeLayout extends RelativeLayout {
 
     public SwipeLayout(Context context) {
         super(context);
-        init(true, android.R.color.black, DIRECTION_RIGHT);
+        init(true, android.R.color.black, DIRECTION_RIGHT, SENSITIVITY);
     }
 
-    public SwipeLayout(Context context, boolean shadow, int shadowColor, int direction) {
+    public SwipeLayout(Context context,
+                       boolean shadow,
+                       int shadowColor,
+                       int direction,
+                       float sensitivity) {
         super(context);
-        init(shadow, shadowColor, direction);
+        init(shadow, shadowColor, direction, sensitivity);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(true, android.R.color.black, DIRECTION_RIGHT);
+        init(true, android.R.color.black, DIRECTION_RIGHT, SENSITIVITY);
     }
 
-    private void init(boolean shadow, @ColorRes int shadowColor, int direction) {
+    private void init(boolean shadow, @ColorRes int shadowColor, int direction, float sensitivity) {
         mDirection = direction;
-        mViewDragHelper = ViewDragHelper.create(this, SENSITIVITY, new ViewDragHelperCallback());
+
+        mViewDragHelper = ViewDragHelper.create(this, sensitivity, new ViewDragHelperCallback());
         mDisplayWidth = getResources().getDisplayMetrics().widthPixels;
 
         if(!shadow) {

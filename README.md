@@ -49,6 +49,7 @@ public class ClosingActivity extends AppCompatActivity {
 				.withShadow(true)
 				.withShadowColor(android.R.color.black)
 				.withDirection(SwipeLayout.DIRECTION_RIGHT)
+				.withSensitivity(0.2f)
 				.withListener(new SwipeLayout.OnCloseListener() {
                     @Override
                     public boolean onCloseStart() {

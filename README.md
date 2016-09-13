@@ -2,16 +2,7 @@
 SwipeToClose is the library which using for create an Activity with swipe-to-close functionality.
 
 # How to use?
-You should add maven repository to build.gradle:
-<pre>
-repositories {
-	jcenter()
-	maven {
-		url 'https://dl.bintray.com/nevyantsev/widget/'
-	}
-}
-</pre>
-Also you should add dependency:
+You should add dependency:
 <pre>
 dependencies {
 	...

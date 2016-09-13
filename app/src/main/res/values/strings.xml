@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Example</string>
-    <string name="info.action.open">Open the Closable Activity</string>
+    <string name="info.action.left">Right-to-Left Swipe</string>
+    <string name="info.action.right">Left-to-Right Swipe</string>
 </resources>

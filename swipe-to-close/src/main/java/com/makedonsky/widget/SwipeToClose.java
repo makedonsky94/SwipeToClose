@@ -26,6 +26,7 @@ public class SwipeToClose {
     private WeakReference<Activity> mActivity;
     private boolean mShadow = true;
     private int mShadowColor = android.R.color.black;
+    private int mDirection = SwipeLayout.DIRECTION_RIGHT;
 
     private SwipeLayout.OnCloseListener mOnCloseListener = new SwipeLayout.OnCloseListener() {
         @Override
@@ -78,6 +79,15 @@ public class SwipeToClose {
     }
 
     /**
+     * Sets direction of swipe.
+     * Available values: {@link SwipeLayout#DIRECTION_LEFT}, {@link SwipeLayout#DIRECTION_RIGHT}
+     */
+    public SwipeToClose withDirection(int direction) {
+        mDirection = direction;
+        return this;
+    }
+
+    /**
      * Sets {@link SwipeLayout} as root view
      */
     public void bind() {
@@ -94,7 +104,7 @@ public class SwipeToClose {
                         ViewGroup.LayoutParams.MATCH_PARENT);
 
         SwipeLayout swipeLayout =
-                new SwipeLayout(activity, mShadow, mShadowColor);
+                new SwipeLayout(activity, mShadow, mShadowColor, mDirection);
         swipeLayout.setLayoutParams(params);
         swipeLayout.setOnCloseListener(mOnCloseListener);
 

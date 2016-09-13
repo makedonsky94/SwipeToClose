@@ -18,8 +18,14 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        android:id="@+id/button_main"
+        android:id="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/info.action.open"/>
+        android:text="@string/info.action.right"/>
+
+    <Button
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/info.action.left"/>
 </LinearLayout>

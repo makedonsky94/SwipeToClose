@@ -13,11 +13,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Button button = (Button) findViewById(R.id.button_main);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button right = (Button) findViewById(R.id.right);
+        right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "right");
+                startActivity(intent);
+            }
+        });
+
+        Button left = (Button) findViewById(R.id.left);
+        left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "left");
                 startActivity(intent);
             }
         });

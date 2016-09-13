@@ -10,6 +10,15 @@ dependencies {
 }
 </pre>
 
+Also you need to add items to style of Activity:
+
+```xml
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+	<item name="android:windowIsTranslucent">true</item>
+	<item name="android:windowBackground">@android:color/transparent</item>
+</style>
+```
+
 # Show me the code
 
 ```java

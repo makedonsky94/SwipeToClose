@@ -21,7 +21,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -29,6 +29,7 @@ public class ViewPagerActivity extends AppCompatActivity {
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             float x = 0;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {

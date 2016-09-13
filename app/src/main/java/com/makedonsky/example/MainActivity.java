@@ -32,5 +32,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button viewPager = (Button) findViewById(R.id.view_pager);
+        viewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

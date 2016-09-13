@@ -17,6 +17,10 @@
         <activity
             android:name=".ClosingActivity"
             android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".ViewPagerActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

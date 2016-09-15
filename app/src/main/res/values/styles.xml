@@ -10,5 +10,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="AppTheme.FullScreen" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 </resources>

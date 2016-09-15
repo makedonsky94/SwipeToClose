@@ -21,6 +21,11 @@
         <activity
             android:name=".ViewPagerActivity"
             android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".DetailImageActivity"
+            android:theme="@style/AppTheme.FullScreen"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

@@ -41,6 +41,10 @@ public class ClosingActivity extends AppCompatActivity {
                 directionIndex = SwipeLayout.DIRECTION_LEFT;
                 header = getString(R.string.info_action_left);
                 break;
+            case "horizontal":
+                directionIndex = SwipeLayout.DIRECTION_HORIZONTAL;
+                header = getString(R.string.info_action_horizontal);
+                break;
             case "top":
                 directionIndex = SwipeLayout.DIRECTION_TOP;
                 header = getString(R.string.info_action_top);
@@ -48,6 +52,10 @@ public class ClosingActivity extends AppCompatActivity {
             case "bottom":
                 directionIndex = SwipeLayout.DIRECTION_BOTTOM;
                 header = getString(R.string.info_action_bottom);
+                break;
+            case "vertical":
+                directionIndex = SwipeLayout.DIRECTION_VERTICAL;
+                header = getString(R.string.info_action_vertical);
                 break;
         }
 

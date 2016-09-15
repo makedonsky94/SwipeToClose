@@ -30,17 +30,27 @@ import android.widget.RelativeLayout;
 
 
 public class SwipeLayout extends RelativeLayout {
-    private static final float START_ALPHA = 0.8f;
-    private static final float END_ALPHA = 0.0f;
+    private static final float MIN_SWIPE = 30;
+
+    public static final float START_ALPHA = 0.8f;
+    public static final float END_ALPHA = 0.0f;
 
     public static final float SENSITIVITY = 0.2f;
 
     public static final int DIRECTION_RIGHT = 1;
     public static final int DIRECTION_LEFT = 2;
+    public static final int DIRECTION_HORIZONTAL = 3;
+    public static final int DIRECTION_TOP = 4;
+    public static final int DIRECTION_BOTTOM = 5;
+    public static final int DIRECTION_VERTICAL = 6;
 
     private ViewDragHelper mViewDragHelper;
 
     private int mDisplayWidth;
+    private int mDisplayHeight;
+
+    private float mStartAlpha;
+    private float mEndAlpha;
 
     private int mDirection;
 
@@ -50,32 +60,43 @@ public class SwipeLayout extends RelativeLayout {
 
     public SwipeLayout(Context context) {
         super(context);
-        init(true, android.R.color.black, DIRECTION_RIGHT, SENSITIVITY);
+        init(true, android.R.color.black, START_ALPHA, END_ALPHA, DIRECTION_RIGHT, SENSITIVITY);
     }
 
     public SwipeLayout(Context context,
                        boolean shadow,
                        int shadowColor,
+                       float startAlpha,
+                       float endAlpha,
                        int direction,
                        float sensitivity) {
         super(context);
-        init(shadow, shadowColor, direction, sensitivity);
+        init(shadow, shadowColor, startAlpha, endAlpha, direction, sensitivity);
     }
 
     public SwipeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(true, android.R.color.black, DIRECTION_RIGHT, SENSITIVITY);
+        init(true, android.R.color.black, START_ALPHA, END_ALPHA, DIRECTION_RIGHT, SENSITIVITY);
     }
 
-    private void init(boolean shadow, @ColorRes int shadowColor, int direction, float sensitivity) {
+    private void init(boolean shadow,
+                      @ColorRes int shadowColor,
+                      float startAlpha,
+                      float endAlpha,
+                      int direction,
+                      float sensitivity) {
         mDirection = direction;
 
         mViewDragHelper = ViewDragHelper.create(this, sensitivity, new ViewDragHelperCallback());
         mDisplayWidth = getResources().getDisplayMetrics().widthPixels;
+        mDisplayHeight = getResources().getDisplayMetrics().heightPixels;
 
         if(!shadow) {
             return;
         }
+
+        mStartAlpha = startAlpha;
+        mEndAlpha = endAlpha;
 
         mFadeLayout = new LinearLayout(getContext());
 
@@ -85,7 +106,7 @@ public class SwipeLayout extends RelativeLayout {
 
         mFadeLayout.setLayoutParams(layoutParams);
         mFadeLayout.setBackgroundColor(ContextCompat.getColor(getContext(), shadowColor));
-        mFadeLayout.setAlpha(START_ALPHA);
+        mFadeLayout.setAlpha(mStartAlpha);
 
         addView(mFadeLayout, 0);
     }
@@ -147,8 +168,10 @@ public class SwipeLayout extends RelativeLayout {
 
         int mDirection;
         int mLeft;
+        int mTop;
         boolean mClose;
         int mDx;
+        int mDy;
 
         void setDirection(int direction) {
             if (mDirection == NONE) {
@@ -159,6 +182,7 @@ public class SwipeLayout extends RelativeLayout {
         public void reset() {
             mDirection = NONE;
             mLeft = 0;
+            mTop = 0;
             mClose = false;
         }
     }
@@ -173,18 +197,33 @@ public class SwipeLayout extends RelativeLayout {
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            mState.setDirection(State.VERTICAL);
-            return super.clampViewPositionVertical(child, top, dy);
+            if(Math.abs(dy) > MIN_SWIPE) {
+                mState.setDirection(State.VERTICAL);
+            }
+
+            if(mState.mDirection == State.VERTICAL) {
+                mState.mTop = getTop(top);
+                mState.mDy = dy;
+            }
+            return mState.mTop;
         }
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            mState.setDirection(State.HORIZONTAL);
+            if(Math.abs(dx) > MIN_SWIPE) {
+                mState.setDirection(State.HORIZONTAL);
+            }
+
             if (mState.mDirection == State.HORIZONTAL) {
                 mState.mLeft = getLeft(left);
                 mState.mDx = dx;
             }
             return mState.mLeft;
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return mDisplayHeight;
         }
 
         @Override
@@ -196,11 +235,13 @@ public class SwipeLayout extends RelativeLayout {
         public void onViewReleased(View releasedChild, float xVel, float yVel) {
             super.onViewReleased(releasedChild, xVel, yVel);
             int leftPosition = 0;
+            int topPosition = 0;
             mState.mClose = getClose();
             if (mState.mClose && (mOnCloseListener == null || mOnCloseListener.onCloseStart())) {
-                leftPosition = getClosePosition();
+                leftPosition = getLeftClosePosition();
+                topPosition = getTopClosePosition();
             }
-            mViewDragHelper.settleCapturedViewAt(leftPosition, 0);
+            mViewDragHelper.settleCapturedViewAt(leftPosition, topPosition);
             invalidate();
         }
 
@@ -223,9 +264,24 @@ public class SwipeLayout extends RelativeLayout {
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             if (mFadeLayout != null) {
-                float percent = 1f - ((float) Math.abs(left) / (float) mDisplayWidth);
-                float alpha = (percent * (START_ALPHA - END_ALPHA)) + END_ALPHA;
+                float percent = getPercent(left, top);
+                float alpha = (percent * (mStartAlpha - mEndAlpha)) + mEndAlpha;
                 mFadeLayout.setAlpha(alpha);
+            }
+        }
+
+        private float getPercent(int left, int top) {
+            switch (mDirection) {
+                case DIRECTION_LEFT:
+                case DIRECTION_RIGHT:
+                case DIRECTION_HORIZONTAL:
+                    return 1f - ((float) Math.abs(left) / (float) mDisplayWidth);
+                case DIRECTION_BOTTOM:
+                case DIRECTION_TOP:
+                case DIRECTION_VERTICAL:
+                    return 1f - ((float) Math.abs(top) / (float) mDisplayHeight);
+                default:
+                    return 0;
             }
         }
 
@@ -235,6 +291,21 @@ public class SwipeLayout extends RelativeLayout {
                     return left >= 0 ? left : 0;
                 case DIRECTION_LEFT:
                     return left <= 0 ? left : 0;
+                case DIRECTION_HORIZONTAL:
+                    return left;
+                default:
+                    return 0;
+            }
+        }
+
+        private int getTop(int top) {
+            switch (SwipeLayout.this.mDirection) {
+                case DIRECTION_BOTTOM:
+                    return top >= 0 ? top : 0;
+                case DIRECTION_TOP:
+                    return top <= 0 ? top : 0;
+                case DIRECTION_VERTICAL:
+                    return top;
                 default:
                     return 0;
             }
@@ -246,17 +317,44 @@ public class SwipeLayout extends RelativeLayout {
                     return mState.mLeft > 200 && mState.mDx > 0;
                 case DIRECTION_LEFT:
                     return mState.mLeft < -200 && mState.mDx < 0;
+                case DIRECTION_HORIZONTAL:
+                    return mState.mLeft > 200 && mState.mDx > 0
+                            || mState.mLeft < -200 && mState.mDx < 0;
+
+                case DIRECTION_BOTTOM:
+                    return mState.mTop > 200 && mState.mDy > 0;
+                case DIRECTION_TOP:
+                    return mState.mTop < -200 && mState.mDy < 0;
+                case DIRECTION_VERTICAL:
+                    return mState.mTop > 200 && mState.mDy > 0
+                            || mState.mTop < -200 && mState.mDy < 0;
+
                 default:
                     return false;
             }
         }
 
-        private int getClosePosition() {
+        private int getLeftClosePosition() {
             switch (SwipeLayout.this.mDirection) {
                 case DIRECTION_RIGHT:
                     return mDisplayWidth;
                 case DIRECTION_LEFT:
                     return -mDisplayWidth;
+                case DIRECTION_HORIZONTAL:
+                    return mState.mLeft > 200 ? mDisplayWidth : -mDisplayWidth;
+                default:
+                    return 0;
+            }
+        }
+
+        private int getTopClosePosition() {
+            switch (SwipeLayout.this.mDirection) {
+                case DIRECTION_BOTTOM:
+                    return mDisplayHeight;
+                case DIRECTION_TOP:
+                    return -mDisplayHeight;
+                case DIRECTION_VERTICAL:
+                    return mState.mTop > 200 ? mDisplayHeight : -mDisplayHeight;
                 default:
                     return 0;
             }

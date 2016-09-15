@@ -2,5 +2,10 @@
     <string name="app_name">Example</string>
     <string name="info.action.left">Right-to-Left Swipe</string>
     <string name="info.action.right">Left-to-Right Swipe</string>
+    <string name="info.action.horizontal">Horizontal Swipe</string>
+    <string name="info.action.bottom">Top-to-Bottom Swipe</string>
+    <string name="info.action.top">Bottom-to-Top Swipe</string>
+    <string name="info.action.vertical">Vertical Swipe</string>
     <string name="info.action.view_pager">Activity with ViewPager</string>
+    <string name="info.action.detail_image">Detail Image</string>
 </resources>

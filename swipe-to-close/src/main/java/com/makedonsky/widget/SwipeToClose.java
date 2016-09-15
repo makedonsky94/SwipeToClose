@@ -18,6 +18,7 @@ package com.makedonsky.widget;
 
 import android.app.Activity;
 import android.support.annotation.ColorRes;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.ref.WeakReference;
@@ -28,6 +29,8 @@ public class SwipeToClose {
     private int mShadowColor = android.R.color.black;
     private int mDirection = SwipeLayout.DIRECTION_RIGHT;
     private float mSensitivity = SwipeLayout.SENSITIVITY;
+    private float mStartAlpha = SwipeLayout.START_ALPHA;
+    private float mEndAlpha = SwipeLayout.END_ALPHA;
 
     private SwipeLayout.OnCloseListener mOnCloseListener = new SwipeLayout.OnCloseListener() {
         @Override
@@ -80,8 +83,24 @@ public class SwipeToClose {
     }
 
     /**
+     * Sets alpha to shadow view.
+     * Default value: {@code startAlpha == 0.8f}, {@code endAlpha == 0.0f}
+     */
+    public SwipeToClose withShadowAlpha(float startAlpha, float endAlpha) {
+        mStartAlpha = startAlpha;
+        mEndAlpha = endAlpha;
+        return this;
+    }
+
+    /**
      * Sets direction of swipe.
-     * Available values: {@link SwipeLayout#DIRECTION_LEFT}, {@link SwipeLayout#DIRECTION_RIGHT}
+     * Available values:
+     * {@link SwipeLayout#DIRECTION_LEFT},
+     * {@link SwipeLayout#DIRECTION_RIGHT},
+     * {@link SwipeLayout#DIRECTION_BOTTOM},
+     * {@link SwipeLayout#DIRECTION_TOP}
+     * {@link SwipeLayout#DIRECTION_VERTICAL}
+     * {@link SwipeLayout#DIRECTION_HORIZONTAL}
      */
     public SwipeToClose withDirection(int direction) {
         mDirection = direction;
@@ -106,14 +125,14 @@ public class SwipeToClose {
         }
 
         ViewGroup content = (ViewGroup) activity.findViewById(android.R.id.content);
-        ViewGroup child = (ViewGroup) content.getChildAt(0);
+        View child = content.getChildAt(0);
 
         SwipeLayout.LayoutParams params =
                 new SwipeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT);
 
         SwipeLayout swipeLayout =
-                new SwipeLayout(activity, mShadow, mShadowColor, mDirection, mSensitivity);
+                new SwipeLayout(activity, mShadow, mShadowColor, mStartAlpha, mEndAlpha, mDirection, mSensitivity);
         swipeLayout.setLayoutParams(params);
         swipeLayout.setOnCloseListener(mOnCloseListener);
 

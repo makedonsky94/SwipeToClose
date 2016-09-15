@@ -33,11 +33,60 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button horizontal = (Button) findViewById(R.id.horizontal);
+        horizontal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "horizontal");
+                startActivity(intent);
+            }
+        });
+
+        Button bottom = (Button) findViewById(R.id.bottom);
+        bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "bottom");
+                startActivity(intent);
+            }
+        });
+
+        Button top = (Button) findViewById(R.id.top);
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "top");
+                startActivity(intent);
+            }
+        });
+
+        Button vertical = (Button) findViewById(R.id.vertical);
+        vertical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "vertical");
+                startActivity(intent);
+            }
+        });
+
         Button viewPager = (Button) findViewById(R.id.view_pager);
         viewPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ViewPagerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button detailImage = (Button) findViewById(R.id.detail_image);
+        detailImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DetailImageActivity.class);
                 startActivity(intent);
             }
         });

@@ -29,11 +29,28 @@ public class ClosingActivity extends AppCompatActivity {
 
         String direction = bundle.getString("swipe", "right");
 
-        int directionIndex = ("right").equals(direction) ?
-                SwipeLayout.DIRECTION_RIGHT : SwipeLayout.DIRECTION_LEFT;
+        int directionIndex = 0;
+        String header = "";
 
-        String header = ("right").equals(direction) ?
-                getString(R.string.info_action_right) : getString(R.string.info_action_left);
+        switch (direction) {
+            case "right":
+                directionIndex = SwipeLayout.DIRECTION_RIGHT;
+                header = getString(R.string.info_action_right);
+                break;
+            case "left":
+                directionIndex = SwipeLayout.DIRECTION_LEFT;
+                header = getString(R.string.info_action_left);
+                break;
+            case "top":
+                directionIndex = SwipeLayout.DIRECTION_TOP;
+                header = getString(R.string.info_action_top);
+                break;
+            case "bottom":
+                directionIndex = SwipeLayout.DIRECTION_BOTTOM;
+                header = getString(R.string.info_action_bottom);
+                break;
+        }
+
         setTitle(header);
 
         SwipeToClose

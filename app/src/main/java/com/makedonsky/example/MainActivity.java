@@ -33,6 +33,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button bottom = (Button) findViewById(R.id.bottom);
+        bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "bottom");
+                startActivity(intent);
+            }
+        });
+
+        Button top = (Button) findViewById(R.id.top);
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClosingActivity.class);
+                intent.putExtra("swipe", "top");
+                startActivity(intent);
+            }
+        });
+
         Button viewPager = (Button) findViewById(R.id.view_pager);
         viewPager.setOnClickListener(new View.OnClickListener() {
             @Override

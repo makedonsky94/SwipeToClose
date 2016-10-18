@@ -6,7 +6,7 @@ You should add dependency:
 <pre>
 dependencies {
 	...
-	compile 'com.makedonsky.widget:swipe-to-close:0.3'
+	compile 'com.makedonsky.widget:swipe-to-close:0.3.9’
 }
 </pre>
 

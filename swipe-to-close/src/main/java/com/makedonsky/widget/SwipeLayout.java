@@ -179,7 +179,7 @@ public class SwipeLayout extends RelativeLayout {
             }
         }
 
-        public void reset() {
+        void reset() {
             mDirection = NONE;
             mLeft = 0;
             mTop = 0;

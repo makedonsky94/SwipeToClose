@@ -8,4 +8,5 @@
     <string name="info.action.vertical">Vertical Swipe</string>
     <string name="info.action.view_pager">Activity with ViewPager</string>
     <string name="info.action.detail_image">Detail Image</string>
+    <string name="info.text.detail_image_view_pager">Detail Image In ViewPager</string>
 </resources>

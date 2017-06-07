@@ -58,6 +58,8 @@ public class SwipeLayout extends RelativeLayout {
 
     private LinearLayout mFadeLayout;
 
+    private State mState = new State();
+
     public SwipeLayout(Context context) {
         super(context);
         init(true, android.R.color.black, START_ALPHA, END_ALPHA, DIRECTION_RIGHT, SENSITIVITY);
@@ -128,6 +130,15 @@ public class SwipeLayout extends RelativeLayout {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        final int action = MotionEventCompat.getActionMasked(ev);
+        if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
+            mState.mDirection = State.NONE;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     public void computeScroll() {
         super.computeScroll();
         if (mViewDragHelper.continueSettling(true)) {
@@ -138,6 +149,8 @@ public class SwipeLayout extends RelativeLayout {
     public void setOnCloseListener(OnCloseListener onCloseListener) {
         mOnCloseListener = onCloseListener;
     }
+
+
 
     public interface OnCloseListener {
         /**
@@ -179,7 +192,7 @@ public class SwipeLayout extends RelativeLayout {
             }
         }
 
-        public void reset() {
+        void reset() {
             mDirection = NONE;
             mLeft = 0;
             mTop = 0;
@@ -188,7 +201,6 @@ public class SwipeLayout extends RelativeLayout {
     }
 
     private class ViewDragHelperCallback extends ViewDragHelper.Callback {
-        State mState = new State();
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {

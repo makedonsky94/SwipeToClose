@@ -68,6 +68,7 @@ public class SwipeToClose {
 
     /**
      * If {@code widthShadow} is true, {@link SwipeLayout} will create shadow effect on closing activity
+     * Default value: true
      */
     public SwipeToClose withShadow(boolean withShadow) {
         mShadow = withShadow;
@@ -75,7 +76,8 @@ public class SwipeToClose {
     }
 
     /**
-     * Sets color of shadow effect. Default color is black
+     * Sets color of the shadow effect.
+     * Default value: black
      */
     public SwipeToClose withShadowColor(@ColorRes int color) {
         mShadowColor = color;
@@ -83,7 +85,7 @@ public class SwipeToClose {
     }
 
     /**
-     * Sets alpha to shadow view.
+     * Sets alpha to the shadow view.
      * Default value: {@code startAlpha == 0.8f}, {@code endAlpha == 0.0f}
      */
     public SwipeToClose withShadowAlpha(float startAlpha, float endAlpha) {
@@ -93,7 +95,7 @@ public class SwipeToClose {
     }
 
     /**
-     * Sets direction of swipe.
+     * Sets direction of the swipe.
      * Available values:
      * {@link SwipeLayout#DIRECTION_LEFT},
      * {@link SwipeLayout#DIRECTION_RIGHT},
@@ -108,7 +110,8 @@ public class SwipeToClose {
     }
 
     /**
-     * Sets sensitivity of swipe. Default value is 0.2f
+     * Sets sensitivity of the swipe.
+     * Default value: 0.2f
      */
     public SwipeToClose withSensitivity(float sensitivity) {
         mSensitivity = sensitivity;
@@ -116,7 +119,7 @@ public class SwipeToClose {
     }
 
     /**
-     * Sets {@link SwipeLayout} as root view
+     * Sets {@link SwipeLayout} as a root view
      */
     public void bind() {
         Activity activity = mActivity.get();

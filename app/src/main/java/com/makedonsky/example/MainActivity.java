@@ -90,5 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button detailImageViewPager = (Button) findViewById(R.id.detail_image_view_pager);
+        detailImageViewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ViewPagerImageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

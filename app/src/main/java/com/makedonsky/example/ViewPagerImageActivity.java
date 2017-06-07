@@ -14,14 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.makedonsky.widget.SwipeLayout;
 import com.makedonsky.widget.SwipeToClose;
 
 
-public class ViewPagerActivity extends AppCompatActivity {
+public class ViewPagerImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_pager);
+        setContentView(R.layout.image_view_pager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,42 +33,18 @@ public class ViewPagerActivity extends AppCompatActivity {
         }
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
-            float x = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x = event.getX();
-                        return false;
-                    case MotionEvent.ACTION_MOVE:
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        return event.getX() - x > 0 && viewPager.getCurrentItem() == 0;
-                    default:
-                        return false;
-                }
-            }
-        });
-        viewPager.setAdapter(new ColorPagerAdapter());
+        viewPager.setAdapter(new ImageAdapter());
 
         SwipeToClose
                 .with(this)
-                .withSensitivity(0.1f)
+                .withDirection(SwipeLayout.DIRECTION_VERTICAL)
                 .bind();
     }
 
-    private class ColorPagerAdapter extends PagerAdapter {
-        int[] colors = {
-                R.color.colorAccent,
-                R.color.colorPrimary,
-                R.color.colorPrimaryDark
-        };
-
+    private class ImageAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return colors.length;
+            return 3;
         }
 
         @Override
@@ -81,7 +58,7 @@ public class ViewPagerActivity extends AppCompatActivity {
             ImageView itemView = (ImageView) LayoutInflater
                     .from(context)
                     .inflate(R.layout.image, container, false);
-            itemView.setImageResource(colors[position]);
+            itemView.setImageResource(R.drawable.water);
 
             container.addView(itemView);
 
